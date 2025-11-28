@@ -2,13 +2,19 @@ pipeline {
     agent any
     stages {
         stage('Checkout') {
-            steps { checkout scm }
+            steps {
+                git 'https://github.com/Ammad-Nasir/mlops-mlflow-assignment.git'
+            }
         }
         stage('Install Dependencies') {
-            steps { sh 'pip install -r requirements.txt' }
+            steps {
+                bat 'pip install -r requirements.txt'
+            }
         }
         stage('Run Pipeline') {
-            steps { sh 'python src/pipeline.py' }
+            steps {
+                bat 'python src\\pipeline.py'
+            }
         }
     }
 }
