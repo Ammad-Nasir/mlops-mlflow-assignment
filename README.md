@@ -1,54 +1,123 @@
-# MLOps Assignment with MLflow
+Sure, Ammad! Here’s a complete **README.md** tailored for your MLflow MLOps assignment. You can place it in the root of your project.
+
+---
+
+```markdown
+# MLOps MLflow Assignment
 
 ## Project Overview
-This project demonstrates an MLOps pipeline using MLflow for tracking, DVC for data versioning, and Python scripts for preprocessing, training, and evaluation. The model predicts Boston housing prices using Random Forest.
+This project implements a complete MLOps pipeline for predicting Boston housing prices using a Random Forest Regressor.  
+It demonstrates **data versioning with DVC**, **model training and tracking with MLflow**, and **CI/CD automation using Jenkins**.
+
+---
+
+## Project Structure
+```
+
+mlops-mlflow-assignment/
+│
+├── data/                       # Raw and processed data
+├── dvc_storage/                # DVC remote storage folder
+├── src/                        # Python scripts
+│   ├── data_preprocessing.py
+│   ├── model_training.py
+│   ├── model_evaluation.py
+│   └── pipeline.py
+├── requirements.txt            # Python dependencies
+├── Jenkinsfile                 # Jenkins CI/CD pipeline
+├── README.md                   # This file
+└── .gitignore                  # Git ignore rules
+
+````
+
+---
 
 ## Setup Instructions
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/<username>/mlops-mlflow-assignment.git
-   cd mlops-mlflow-assignment
-   ```
 
-2. Install dependencies:
+1. **Clone the repository**
+```bash
+git clone https://github.com/Ammad-Nasir/mlops-mlflow-assignment.git
+cd "mlops 4"
+````
 
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Setup DVC remote if needed:
+2. **Install Python dependencies**
 
-   ```bash
-   dvc remote add -d storage /path/to/remote
-   dvc pull
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-## Pipeline Walkthrough
+3. **Initialize DVC and set up remote storage**
 
-1. Preprocess data:
+```bash
+dvc init
+dvc remote add -d storage ./dvc_storage
+dvc add data/raw_data.csv
+dvc push
+```
 
-   ```bash
-   python src/data_preprocessing.py
-   ```
-2. Train model:
+4. **Run the ML pipeline**
 
-   ```bash
-   python src/model_training.py
-   ```
-3. Evaluate model (use MLflow run_id):
+```bash
+python src/pipeline.py
+```
 
-   ```bash
-   python src/model_evaluation.py --run_id <latest_run_id>
-   ```
-4. Or run full pipeline:
-
-   ```bash
-   python src/pipeline.py
-   ```
-
-## MLflow Tracking
+5. **View MLflow UI**
 
 ```bash
 mlflow ui
 ```
 
-Open `http://localhost:5000` to see logged models and metrics.
+Open `http://localhost:5000` in your browser to see runs, metrics, and logged models.
+
+---
+
+## Pipeline Walkthrough
+
+1. **Preprocessing** (`data_preprocessing.py`)
+
+   * Scales features and splits data into training/testing sets.
+   * Saves processed dataset to `data/processed_data.csv`.
+
+2. **Model Training** (`model_training.py`)
+
+   * Trains a Random Forest Regressor.
+   * Logs model, parameters, and metrics to MLflow.
+
+3. **Model Evaluation** (`model_evaluation.py`)
+
+   * Evaluates the latest MLflow run on the test set.
+   * Prints MSE and R² metrics.
+
+4. **Full Pipeline** (`pipeline.py`)
+
+   * Runs preprocessing → training → evaluation in sequence.
+   * Automatically uses the latest MLflow run ID.
+
+5. **CI/CD** (`Jenkinsfile`)
+
+   * Automates checkout, dependency installation, and pipeline execution.
+
+---
+
+## Notes
+
+* MLflow currently logs runs to the local filesystem (`mlruns/`).
+* Dataset is versioned with DVC.
+* Metrics (MSE, R²) and model artifacts are available in the MLflow UI.
+
+```
+
+---
+
+This README covers:
+
+- **Project overview**  
+- **Directory structure**  
+- **Setup instructions**  
+- **Pipeline explanation**  
+- **CI/CD notes**  
+
+It’s ready to push to your GitHub repo as Task 5 deliverable.  
+
+Do you want me to give the **exact CMD commands to add, commit, and push this README** too?
+```
