@@ -1,6 +1,3 @@
- a complete **README.md** tailored for your MLflow MLOps assignment. You can place it in the root of your project.
-
----
 
 ```markdown
 # MLOps MLflow Assignment
