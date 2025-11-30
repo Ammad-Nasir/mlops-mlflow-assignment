@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -30,11 +30,11 @@ jobs:
     - name: Use real dataset if available, otherwise create a dummy file
       run: |
         if [ ! -f data/raw_data.csv ]; then
-          echo "Real dataset NOT FOUND — creating dummy file"
+          echo "⚠ Real dataset NOT FOUND — creating dummy file"
           echo "CRIM,ZN,INDUS,CHAS,NOX,RM,AGE,DIS,RAD,TAX,PTRATIO,B,LSTAT,PRICE" > data/raw_data.csv
           echo "0.1,10,5,0,0.5,6.5,60,3.0,1,300,15,390,5,24" >> data/raw_data.csv
         else
-          echo "Real dataset FOUND — using real raw_data.csv"
+          echo "✔ Real dataset FOUND — using real raw_data.csv"
         fi
 
     - name: Run preprocessing script
@@ -44,7 +44,13 @@ jobs:
       run: python src/train.py
 
     - name: Upload processed file artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: processed-data
         path: data/processed_data.csv
+
+    - name: Upload MLflow artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mlflow-runs
+        path: mlruns/
