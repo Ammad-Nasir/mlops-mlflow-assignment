@@ -32,7 +32,7 @@ jobs:
         
     - name: Verify data directory exists
       run: |
-        if [ ! -f "data/raw_data.csv" ]; then
+        if [ ! -f "data/raw_data.csv.dvc" ]; then
           echo "Error: data/raw_data.csv not found"
           exit 1
         fi
