@@ -1,6 +1,3 @@
-Sure, Ammad! Here’s a complete **README.md** tailored for your MLflow MLOps assignment. You can place it in the root of your project.
-
----
 
 ```markdown
 # MLOps MLflow Assignment
@@ -119,5 +116,5 @@ This README covers:
 
 It’s ready to push to your GitHub repo as Task 5 deliverable.  
 
-Do you want me to give the **exact CMD commands to add, commit, and push this README** too?
+
 ```
