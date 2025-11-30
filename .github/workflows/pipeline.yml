@@ -1,56 +1,62 @@
-name: ML Pipeline
+name: ML Pipeline Workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - master
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - master
+  workflow_dispatch:
 
 jobs:
-  build-run:
+  run-pipeline:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout repo
+    - name: Checkout code
       uses: actions/checkout@v4
-
+      
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.10"
-
+        python-version: '3.9'
+        cache: 'pip'
+        
     - name: Install dependencies
       run: |
         pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Ensure data directory exists
-      run: mkdir -p data
-
-    - name: Use real dataset if available, otherwise create a dummy file
+    - name: Make sure data exists
       run: |
+        mkdir -p data
         if [ ! -f data/raw_data.csv ]; then
-          echo "⚠ Real dataset NOT FOUND — creating dummy file"
+          echo "⚠ raw_data.csv NOT found — creating dummy dataset"
           echo "CRIM,ZN,INDUS,CHAS,NOX,RM,AGE,DIS,RAD,TAX,PTRATIO,B,LSTAT,PRICE" > data/raw_data.csv
           echo "0.1,10,5,0,0.5,6.5,60,3.0,1,300,15,390,5,24" >> data/raw_data.csv
         else
-          echo "✔ Real dataset FOUND — using real raw_data.csv"
+          echo "✔ raw_data.csv found — using actual dataset"
         fi
 
-    - name: Run preprocessing script
-      run: python src/preprocessing.py
+    - name: Run Preprocessing
+      run: python src/data_preprocessing.py
 
-    - name: Run model training
-      run: python src/train.py
-
-    - name: Upload processed file artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: processed-data
-        path: data/processed_data.csv
-
-    - name: Upload MLflow artifacts
+    - name: Run Model Training
+      run: python src/model_training.py
+        
+    - name: Upload MLflow runs
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: mlflow-runs
         path: mlruns/
+        
+    - name: Upload processed data
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: processed-data
+        path: data/processed_data.csv
