@@ -47,7 +47,7 @@ jobs:
         
     - name: Upload MLflow artifacts
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4   # <- updated here
       with:
         name: mlflow-runs
         path: mlruns/
@@ -55,9 +55,8 @@ jobs:
         
     - name: Upload processed data
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4   # <- updated here
       with:
         name: processed-data
         path: data/processed_data.csv
         retention-days: 7
-
